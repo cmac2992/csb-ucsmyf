@@ -41,6 +41,8 @@
         params.lat && params.long
           ? [Number(params.lat), Number(params.long)]
           : [-105.2407226, 20.5949844];
+
+      const zoom = params.zoom ? Number(params.zoom) : 15;
       mapboxgl.accessToken =
         "pk.eyJ1IjoiY2hyaXNtYWNzZWEiLCJhIjoiY2tpcWRlOTZhMDg3dzJydGdteWFxdGV2MiJ9.TurN2NCmwWGwjC1BIe822g";
       const map = new mapboxgl.Map({
@@ -48,7 +50,7 @@
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: "mapbox://styles/chrismacsea/clbdwz1o7000014ryne18ezuu",
         center: center,
-        zoom: 15
+        zoom: zoom
       });
 
       map.on("load", () => {
