@@ -41,7 +41,7 @@
         params.lat && params.long
           ? [Number(params.lat), Number(params.long)]
           : [-105.2407226, 20.5949844];
-
+      console.log(center);
       const zoom = params.zoom ? Number(params.zoom) : 14;
       mapboxgl.accessToken =
         "pk.eyJ1IjoiY2hyaXNtYWNzZWEiLCJhIjoiY2tpcWRlOTZhMDg3dzJydGdteWFxdGV2MiJ9.TurN2NCmwWGwjC1BIe822g";
@@ -49,34 +49,33 @@
         container: "map",
         // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
         style: "mapbox://styles/chrismacsea/clbdwz1o7000014ryne18ezuu",
-        center: center,
+        center: [-105.2407226, 20.5949844],
         zoom: zoom
       });
 
       map.on("load", () => {
+        map.flyTo({
+          center: center;
+        });
         // Create a popup, but don't add it to the map yet.
         const popup = new mapboxgl.Popup({
           closeButton: false,
           closeOnClick: true
         });
-        console.log("hi");
 
         map.on("mouseenter", "symbols", (e) => {
           const features = map.queryRenderedFeatures(e.point);
 
           // Change the cursor style as a UI indicator.
-          console.log("fest");
           map.getCanvas().style.cursor = "pointer";
         });
 
         map.on("mouseleave", "symbols", () => {
           map.getCanvas().style.cursor = "";
-          // popup.remove();
         });
 
         map.on("click", "symbols", (e) => {
           // Copy coordinates array.
-          console.log("label");
           const features = map.queryRenderedFeatures(e.point);
           const theData = features[0];
           // console.log(console.log(features));
@@ -88,7 +87,6 @@
           while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
             coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
           }
-          console.log(theData.properties);
           // Populate the popup and set its coordinates
           // based on the feature found.
           popup
